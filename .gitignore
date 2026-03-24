@@ -2,3 +2,5 @@ node_modules/
 dist/
 .env
 *.env.local
+ephemeris/*.se1
+ephemeris/*.eph
