@@ -31,34 +31,56 @@ Returns `{ status: "ok", timestamp: "<ISO 8601>" }`.
 
 Calculates a natal chart for a given moment and location.
 
-**Request body** (planned):
+**Request body:**
 ```json
 {
   "datetime": "1990-06-15T14:30:00Z",
-  "latitude": 56.9496,
-  "longitude": 24.1052,
-  "houseSystem": "P"
+  "lat": 56.9496,
+  "lon": 24.1052,
+  "houseSystem": "placidus"
 }
 ```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `datetime` | string | ISO 8601 datetime |
+| `lat` | number | Latitude (-90 to 90) |
+| `lon` | number | Longitude (-180 to 180) |
+| `houseSystem` | string | `"placidus"` or `"whole-sign"` |
+
+**Response:** `{ planets, houses, ascendant, aspects }`
 
 ### `POST /transits`
 
-Calculates planetary positions for a given moment.
+Calculates current planetary positions and their aspects to natal planets.
 
-**Request body** (planned):
+**Request body:**
 ```json
 {
   "datetime": "2026-03-24T12:00:00Z",
-  "latitude": 56.9496,
-  "longitude": 24.1052
+  "lat": 56.9496,
+  "lon": 24.1052,
+  "natalPlanets": [
+    { "planet": "Sun", "longitude": 84.42 },
+    { "planet": "Moon", "longitude": 312.15 }
+  ]
 }
 ```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `datetime` | string | ISO 8601 datetime |
+| `lat` | number | Latitude (-90 to 90) |
+| `lon` | number | Longitude (-180 to 180) |
+| `natalPlanets` | array | Each entry has `planet` (string) and `longitude` (number) |
+
+**Response:** `{ planets, aspects }`
 
 ## Tech stack
 
 - Node.js + TypeScript
 - Express
-- [swisseph](https://www.npmjs.com/package/swisseph) — Swiss Ephemeris Node.js binding
+- [sweph](https://www.npmjs.com/package/sweph) — Swiss Ephemeris Node.js binding
 
 ## Development
 
@@ -71,10 +93,4 @@ npm start         # Run compiled output
 
 ## License
 
-Copyright (C) 2026 AstroArc contributors
-
-This program is free software: you can redistribute it and/or modify it under the terms of the **GNU Affero General Public License** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+AGPL-3.0-only — see `package.json` for the license identifier. A `LICENSE` file has not yet been added to this repository.
