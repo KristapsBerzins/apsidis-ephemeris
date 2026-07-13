@@ -64,8 +64,10 @@ export function validateTransitInput(
     return { valid: false, error: '"lon" must be a number between -180 and 180' };
   }
 
-  if (!Array.isArray(b.natalPlanets) || b.natalPlanets.length === 0) {
-    return { valid: false, error: '"natalPlanets" must be a non-empty array' };
+  // An empty array is valid: the response then contains transit planets only
+  // (current sky positions) with no transit-to-natal aspects.
+  if (!Array.isArray(b.natalPlanets)) {
+    return { valid: false, error: '"natalPlanets" must be an array' };
   }
   for (const p of b.natalPlanets as unknown[]) {
     if (!p || typeof p !== 'object') {
